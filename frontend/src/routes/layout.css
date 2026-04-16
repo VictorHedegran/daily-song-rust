@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@import 'tailwindcss';
+
+:root {
+	/* Spotify-inspired color palette */
+	--background: #121212;
+	--background-elevated: #1a1a1a;
+	--background-highlight: #282828;
+	--surface: #181818;
+	--input: #2a2a2a;
+	--input-hover: #333333;
+	--spotify-green: #1db954;
+	--spotify-green-hover: #1ed760;
+	--text-primary: #ffffff;
+	--text-secondary: #b3b3b3;
+	--text-subdued: #6a6a6a;
+	--divider: #282828;
+	--border-muted: #727272;
+	--error: #e91429;
+	--error-hover: #d01223;
+	--overlay: rgba(0, 0, 0, 0.7);
+	--header-height: 73px;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-background-elevated: var(--background-elevated);
+	--color-background-highlight: var(--background-highlight);
+	--color-surface: var(--surface);
+	--color-input: var(--input);
+	--color-input-hover: var(--input-hover);
+	--color-spotify-green: var(--spotify-green);
+	--color-spotify-green-hover: var(--spotify-green-hover);
+	--color-text-primary: var(--text-primary);
+	--color-text-secondary: var(--text-secondary);
+	--color-text-subdued: var(--text-subdued);
+	--color-divider: var(--divider);
+	--color-border-muted: var(--border-muted);
+	--color-error: var(--error);
+	--color-error-hover: var(--error-hover);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+}
+
+body {
+	background: var(--background);
+	color: var(--text-primary);
+	font-family:
+		var(--font-geist-sans),
+		system-ui,
+		-apple-system,
+		sans-serif;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbars for cleaner Spotify-style UI */
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* Dialog animations */
+dialog[open] {
+	animation: dialog-slide-up 0.25s ease-out;
+}
+
+dialog[open]::backdrop {
+	animation: dialog-backdrop-fade 0.25s ease-out;
+}
+
+@keyframes dialog-slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(1rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes dialog-backdrop-fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Push prompt slide-down */
+@keyframes slideDown {
+	from {
+		transform: translateY(-100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
