@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS push_subscriptions;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS submissions;
+DROP TABLE IF EXISTS users;
