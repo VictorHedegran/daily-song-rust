@@ -18,7 +18,6 @@ pub async fn search(
     Query(params): Query<SearchParams>,
     session: Session,
 ) -> Result<impl IntoResponse, AppError> {
-    print!("Received search request with query: {}\n", params.query);
     let user_id: String = session
         .get("user_id")
         .await
@@ -43,8 +42,6 @@ pub async fn search(
         )
         .await?;
 
-    print!("Using access token: {access_token}\n");
-
     let response = reqwest::Client::new()
         .get(format!(
             "https://api.spotify.com/v1/search?q={}&type=track&limit=10&include_external=audio",
@@ -66,14 +63,10 @@ pub async fn search(
         )));
     }
 
-    print!("Spotify search response status: {}\n", response.status());
-
     let body = response
         .text()
         .await
         .map_err(|e| AppError::SpotifyError(format!("Failed to read Spotify response: {e}")))?;
-
-    print!("Spotify search response body: {body}\n");
 
     let search_result: SearchForItem = serde_json::from_str(&body).map_err(|e| {
         AppError::SpotifyError(format!(
@@ -81,11 +74,7 @@ pub async fn search(
         ))
     })?;
 
-    print!("Spotify search result: {search_result:#?}\n");
-
     let items = search_result.tracks.map(|t| t.items).unwrap_or_default();
-
-    print!("Extracted tracks: {items:#?}\n");
 
     Ok(Json(items))
 }
