@@ -20,7 +20,6 @@ pub struct Image {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-#[allow(dead_code)]
 pub struct SpotifyMeResponse {
     pub display_name: String,
     pub email: String, // DEPRECATED, From Spotify API docs: Important! This email address is unverified; there is no proof that it actually belongs to the user. This field is only available when the current user has granted access to the user-read-email scope.
@@ -53,7 +52,8 @@ pub struct Track {
     pub uri: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, TS)]
+#[ts(export)]
 pub struct TracksPage {
     pub items: Vec<Track>,
     pub total: u32,

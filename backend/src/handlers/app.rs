@@ -6,7 +6,7 @@ use axum::{
 use serde::Deserialize;
 use tower_sessions::Session;
 
-use crate::models::{AppError, SearchForItem, User};
+use crate::models::{AppError, SearchForItem, TracksPage, User};
 
 #[derive(Debug, Deserialize)]
 pub struct SearchParams {
@@ -74,7 +74,15 @@ pub async fn search(
         ))
     })?;
 
-    let items = search_result.tracks.map(|t| t.items).unwrap_or_default();
+    let res = search_result.tracks.unwrap_or(TracksPage {
+        items: vec![],
+        total: 0,
+        limit: 0,
+        offset: 0,
+        href: "".to_string(),
+        next: None,
+        previous: None,
+    });
 
-    Ok(Json(items))
+    Ok(Json(res))
 }
