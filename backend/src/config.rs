@@ -31,6 +31,9 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
     let database_url = std::env::var("DATABASE_URL")
         .map_err(|_| ConfigError::MissingEnvVar("DATABASE_URL".to_string()))?;
 
+    let playlist_id = std::env::var("DAILY_SONG_PLAYLIST_ID")
+        .map_err(|_| ConfigError::MissingEnvVar("DAILY_SONG_PLAYLIST_ID".to_string()))?;
+
     let pg_pool = sqlx::PgPool::connect(&database_url).await?;
 
     let session_store = PostgresStore::new(pg_pool.clone());
@@ -53,6 +56,7 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
             spotify_client_secret,
             spotify_scopes,
             pg_pool,
+            playlist_id,
         },
         session_layer,
         deletion_task,

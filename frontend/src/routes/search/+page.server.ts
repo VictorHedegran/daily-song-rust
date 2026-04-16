@@ -39,13 +39,13 @@ export const actions: Actions = {
 
 		if (!uri) throw error(400, 'Missing uri');
 
-		const res = await fetch('http://127.0.0.1:3000/tracks', {
+		const res = await fetch('http://127.0.0.1:3000/add_track', {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ uri, notes, mood })
 		});
 
-		if (!res.ok) throw error(res.status, 'Failed to add track');
+		if (!res.ok) throw error(res.status, 'Failed to add track' + JSON.stringify(await res.json()));
 	}
 };

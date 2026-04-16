@@ -12,7 +12,7 @@ mod models;
 mod state;
 
 use config::load_from_env;
-use handlers::{auth, callback, echo, get_me, logout, say_hi, search};
+use handlers::*;
 
 mod zod_generator;
 
@@ -38,6 +38,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/me", get(get_me))
         .route("/logout", post(logout))
         .route("/search", get(search))
+        .route("/add_track", post(add_track))
         .with_state(config.state)
         .layer(config.session_layer)
         .layer(cors);
