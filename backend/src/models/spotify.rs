@@ -2,7 +2,6 @@ use serde::{Deserialize, Serialize};
 use zod_gen_derive::ZodSchema;
 
 #[derive(Debug, Deserialize, Serialize)]
-#[allow(dead_code)]
 pub struct SpotifyAuthResponse {
     pub access_token: String,
     pub token_type: String,
@@ -25,8 +24,6 @@ pub struct SpotifyMeResponse {
     pub href: String,
     pub id: String,
     pub images: Vec<Image>,
-    #[serde(rename = "type")]
-    pub user_type: String,
     pub uri: String,
 }
 

@@ -7,10 +7,8 @@ use crate::models::TracksPage;
 pub fn generate_types() {
     let mut generator = ZodGenerator::new();
 
-    // Add all your types with meaningful names
     generator.add_schema::<TracksPage>("TracksPage");
 
-    // Generate a single TypeScript file with all schemas
     let content = generator.generate();
     let output_path = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
