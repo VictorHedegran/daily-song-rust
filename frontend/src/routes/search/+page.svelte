@@ -1,17 +1,12 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
+	import SearchResultCard from './SearchResultCard.svelte';
 
 	let { data }: PageProps = $props();
 </script>
 
-{#if !data.query}
-	<p>Type to search.</p>
-{:else if data.error}
-	<p>Search failed: {data.error}</p>
-{:else if data.results.items.length === 0}
-	<p>No results for "{data.query}".</p>
-{:else}
-	<ul>
-		<p>{JSON.stringify(data.results)} for "{data.query}".</p>
-	</ul>
-{/if}
+<div class="flex flex-col gap-1.5">
+	{#each data.result.items as track (track.id)}
+		<SearchResultCard {track} />
+	{/each}
+</div>

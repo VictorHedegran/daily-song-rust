@@ -39,6 +39,7 @@ pub struct Album {
 
 #[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct Track {
+    pub id: String,
     pub album: Album,
     pub artists: Vec<Artist>,
     pub name: String,
