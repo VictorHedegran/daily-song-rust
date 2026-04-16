@@ -1,0 +1,9 @@
+ .env
+  .env.local
+  .env.*.local
+  target/
+  *.swp
+  *.swo
+  .DS_Store
+  .idea/
+  *.iml
