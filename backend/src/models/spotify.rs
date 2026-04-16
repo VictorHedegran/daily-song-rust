@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
+use zod_gen_derive::ZodSchema;
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(dead_code)]
@@ -11,8 +11,7 @@ pub struct SpotifyAuthResponse {
     pub refresh_token: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-#[ts(export)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct Image {
     pub url: String,
     pub height: Option<u32>,
@@ -31,20 +30,17 @@ pub struct SpotifyMeResponse {
     pub uri: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-#[ts(export)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct Artist {
     pub name: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-#[ts(export)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct Album {
     pub images: Vec<Image>,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-#[ts(export)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct Track {
     pub album: Album,
     pub artists: Vec<Artist>,
@@ -52,8 +48,7 @@ pub struct Track {
     pub uri: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-#[ts(export)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema)]
 pub struct TracksPage {
     pub items: Vec<Track>,
     pub total: u32,

@@ -5,7 +5,6 @@ use axum::{
 use base64::Engine;
 use serde::{Deserialize, Serialize};
 use time;
-use ts_rs::TS;
 
 use super::errors::AppError;
 use super::spotify::SpotifyAuthResponse;
@@ -109,8 +108,7 @@ impl User {
     }
 }
 
-#[derive(Serialize, TS)]
-#[ts(export)]
+#[derive(Serialize)]
 pub struct UserResponse {
     pub id: String,
     pub name: String,

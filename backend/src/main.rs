@@ -14,8 +14,12 @@ mod state;
 use config::load_from_env;
 use handlers::{auth, callback, echo, get_me, logout, say_hi, search};
 
+mod zod_generator;
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    zod_generator::generate_types();
+
     dotenvy::dotenv().ok();
 
     let config = load_from_env().await?;

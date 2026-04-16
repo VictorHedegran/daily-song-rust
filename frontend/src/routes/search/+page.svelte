@@ -8,7 +8,7 @@
 	<p>Type to search.</p>
 {:else if data.error}
 	<p>Search failed: {data.error}</p>
-{:else if data.results.length === 0}
+{:else if data.results.items.length === 0}
 	<p>No results for "{data.query}".</p>
 {:else}
 	<ul>
