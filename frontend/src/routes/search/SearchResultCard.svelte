@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Track } from '$lib/types/schemas';
-	import { Plus } from 'lucide-svelte';
+	import AddButton from './AddButton.svelte';
 	let { track }: { track: Track } = $props();
 
 	const images = $derived(track.album.images);
@@ -33,10 +33,6 @@
 		</p>
 	</div>
 	<div class="shrink-0">
-		<button
-			class="rounded-full p-2.5 text-sm font-bold transition-all duration-200 active:scale-90"
-		>
-			<Plus class="h-5 w-5" aria-hidden="true" />
-		</button>
+		<AddButton uri={track.uri} trackName={track.name} artistName={artistNames} />
 	</div>
 </div>
