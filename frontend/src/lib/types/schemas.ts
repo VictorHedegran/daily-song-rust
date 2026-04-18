@@ -43,3 +43,12 @@ export const TracksPageSchema = z.object({
 });
 export type TracksPage = z.infer<typeof TracksPageSchema>;
 
+export const UserResponseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  avatar_url: z.string().nullable(),
+  daily_song_playlist_id: z.string().nullable()
+});
+export type UserResponse = z.infer<typeof UserResponseSchema>;
+

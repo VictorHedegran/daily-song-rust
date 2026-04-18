@@ -2,6 +2,7 @@ use time::Duration;
 use tokio::task::JoinHandle;
 use tower_sessions::{
     Expiry, SessionManagerLayer,
+    cookie::SameSite,
     session_store::{Error as SessionStoreError, ExpiredDeletion},
 };
 use tower_sessions_sqlx_store::PostgresStore;
@@ -47,6 +48,7 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
 
     let session_layer = SessionManagerLayer::new(session_store)
         .with_secure(false)
+        .with_same_site(SameSite::Lax)
         .with_expiry(Expiry::OnInactivity(Duration::days(30)));
 
     Ok(Config {

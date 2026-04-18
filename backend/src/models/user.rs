@@ -5,6 +5,7 @@ use axum::{
 use base64::Engine;
 use serde::{Deserialize, Serialize};
 use time;
+use zod_gen_derive::ZodSchema;
 
 use super::errors::AppError;
 use super::spotify::SpotifyAuthResponse;
@@ -108,7 +109,7 @@ impl User {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ZodSchema)]
 pub struct UserResponse {
     pub id: String,
     pub name: String,
