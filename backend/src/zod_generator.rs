@@ -2,7 +2,7 @@ use std::fs;
 use std::path::Path;
 use zod_gen::ZodGenerator;
 
-use crate::models::{Track, TracksPage, UserResponse};
+use crate::models::{GetHistoryResponse, Track, TracksPage, UserResponse};
 
 pub fn generate_types() {
     let mut generator = ZodGenerator::new();
@@ -10,6 +10,7 @@ pub fn generate_types() {
     generator.add_schema::<TracksPage>("TracksPage");
     generator.add_schema::<Track>("Track");
     generator.add_schema::<UserResponse>("UserResponse");
+    generator.add_schema::<GetHistoryResponse>("GetHistoryResponse");
 
     let content = generator.generate();
     let output_path = Path::new(env!("CARGO_MANIFEST_DIR"))

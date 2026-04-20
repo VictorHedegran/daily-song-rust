@@ -10,7 +10,7 @@ pub struct SpotifyAuthResponse {
     pub refresh_token: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Serialize, ZodSchema)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema, Clone)]
 pub struct Image {
     pub url: String,
     pub height: Option<u32>,
@@ -27,12 +27,12 @@ pub struct SpotifyMeResponse {
     pub uri: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, ZodSchema)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema, Clone)]
 pub struct Artist {
     pub name: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, ZodSchema)]
+#[derive(Debug, Deserialize, Serialize, ZodSchema, Clone)]
 pub struct Album {
     pub images: Vec<Image>,
 }
@@ -60,4 +60,30 @@ pub struct TracksPage {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct SearchForItem {
     pub tracks: Option<TracksPage>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone, ZodSchema)]
+pub struct ExternalUrls {
+    pub spotify: String,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone, ZodSchema)]
+pub struct SpotifyPlaylistItem {
+    pub id: String,
+    pub name: String,
+    pub album: Album,
+    pub external_urls: ExternalUrls,
+    pub artists: Vec<Artist>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone, ZodSchema)]
+pub struct PlaylistTrackItem {
+    #[serde(rename = "item", alias = "track")]
+    pub track: SpotifyPlaylistItem,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct SpotifyPlaylistResponse {
+    pub next: Option<String>,
+    pub items: Vec<PlaylistTrackItem>,
 }

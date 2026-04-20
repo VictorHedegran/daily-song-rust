@@ -39,6 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/logout", post(logout))
         .route("/search", get(search))
         .route("/add_track", post(add_track))
+        .route("/history", get(get_history))
         .with_state(config.state)
         .layer(config.session_layer)
         .layer(cors);
