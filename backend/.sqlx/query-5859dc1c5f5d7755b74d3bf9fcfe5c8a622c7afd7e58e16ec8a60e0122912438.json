@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO submissions (id, user_id, track_id, notes, mood, date) VALUES (gen_random_uuid(), $1, $2, $3, $4, $5)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "5859dc1c5f5d7755b74d3bf9fcfe5c8a622c7afd7e58e16ec8a60e0122912438"
+}

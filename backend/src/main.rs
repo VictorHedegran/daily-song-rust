@@ -18,6 +18,7 @@ mod zod_generator;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(debug_assertions)]
     zod_generator::generate_types();
 
     dotenvy::dotenv().ok();
@@ -25,7 +26,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = load_from_env().await?;
 
     let cors = CorsLayer::new()
-        .allow_origin("http://127.0.0.1:5173".parse::<HeaderValue>().unwrap())
+        .allow_origin(
+            config
+                .frontend_url
+                .parse::<HeaderValue>()
+                .expect("invalid FRONTEND_URL"),
+        )
         .allow_methods([Method::GET, Method::POST])
         .allow_credentials(true);
 
@@ -44,7 +50,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(config.session_layer)
         .layer(cors);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{port}")).await?;
 
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(config.deletion_task.abort_handle()))

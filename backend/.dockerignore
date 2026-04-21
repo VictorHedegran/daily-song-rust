@@ -1,0 +1,11 @@
+target/
+.env
+.env.*
+.git
+.gitignore
+*.swp
+*.swo
+.DS_Store
+.idea/
+README.md
+docker-compose.yaml

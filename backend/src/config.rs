@@ -13,6 +13,7 @@ pub struct Config {
     pub state: AppState,
     pub session_layer: SessionManagerLayer<PostgresStore>,
     pub deletion_task: JoinHandle<Result<(), SessionStoreError>>,
+    pub frontend_url: String,
 }
 
 pub async fn load_from_env() -> Result<Config, ConfigError> {
@@ -35,7 +36,16 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
     let playlist_id = std::env::var("DAILY_SONG_PLAYLIST_ID")
         .map_err(|_| ConfigError::MissingEnvVar("DAILY_SONG_PLAYLIST_ID".to_string()))?;
 
+    let frontend_url = std::env::var("FRONTEND_URL")
+        .map_err(|_| ConfigError::MissingEnvVar("FRONTEND_URL".to_string()))?;
+
+    let secure_cookies = std::env::var("SECURE_COOKIES")
+        .map(|v| v == "true" || v == "1")
+        .unwrap_or(false);
+
     let pg_pool = sqlx::PgPool::connect(&database_url).await?;
+
+    sqlx::migrate!("./migrations").run(&pg_pool).await?;
 
     let session_store = PostgresStore::new(pg_pool.clone());
     session_store.migrate().await?;
@@ -46,9 +56,10 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
             .continuously_delete_expired(tokio::time::Duration::from_secs(60)),
     );
 
+    let same_site = if secure_cookies { SameSite::None } else { SameSite::Lax };
     let session_layer = SessionManagerLayer::new(session_store)
-        .with_secure(false)
-        .with_same_site(SameSite::Lax)
+        .with_secure(secure_cookies)
+        .with_same_site(same_site)
         .with_expiry(Expiry::OnInactivity(Duration::days(30)));
 
     Ok(Config {
@@ -62,5 +73,6 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
         },
         session_layer,
         deletion_task,
+        frontend_url,
     })
 }

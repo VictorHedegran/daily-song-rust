@@ -26,6 +26,7 @@ impl IntoResponse for AppError {
 pub enum ConfigError {
     MissingEnvVar(String),
     DatabaseError(sqlx::Error),
+    MigrateError(sqlx::migrate::MigrateError),
 }
 
 impl fmt::Display for ConfigError {
@@ -35,6 +36,7 @@ impl fmt::Display for ConfigError {
                 write!(f, "Missing required environment variable: {}", var)
             }
             ConfigError::DatabaseError(e) => write!(f, "Database connection failed: {}", e),
+            ConfigError::MigrateError(e) => write!(f, "Migration failed: {}", e),
         }
     }
 }
@@ -44,5 +46,11 @@ impl std::error::Error for ConfigError {}
 impl From<sqlx::Error> for ConfigError {
     fn from(err: sqlx::Error) -> Self {
         ConfigError::DatabaseError(err)
+    }
+}
+
+impl From<sqlx::migrate::MigrateError> for ConfigError {
+    fn from(err: sqlx::migrate::MigrateError) -> Self {
+        ConfigError::MigrateError(err)
     }
 }
