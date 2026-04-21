@@ -12,5 +12,5 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <Header {user} />
-{@render children()}
+<main class="max-w-4xl mx-auto px-4">{@render children()}</main>
 <BottomNav />
