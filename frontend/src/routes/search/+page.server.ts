@@ -1,6 +1,7 @@
 import { TracksPageSchema, type TracksPage } from '$lib/types/schemas';
 import type { PageServerLoad, Actions } from './$types';
 import { error } from '@sveltejs/kit';
+import { BACKEND_URL } from '$env/static/private';
 
 const emptyPage: TracksPage = {
 	items: [],
@@ -19,7 +20,7 @@ export const load: PageServerLoad = async ({
 	const query = url.searchParams.get('q')?.trim() ?? '';
 	if (!query) return { query, result: emptyPage };
 
-	const res = await fetch(`http://127.0.0.1:3000/search?query=${encodeURIComponent(query)}`, {
+	const res = await fetch(`${BACKEND_URL}/search?query=${encodeURIComponent(query)}`, {
 		credentials: 'include'
 	});
 	if (!res.ok) return { query, result: emptyPage, error: res.statusText };
@@ -39,7 +40,7 @@ export const actions: Actions = {
 
 		if (!uri) throw error(400, 'Missing uri');
 
-		const res = await fetch('http://127.0.0.1:3000/add_track', {
+		const res = await fetch('${BACKEND_URL}/add_track', {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' },
