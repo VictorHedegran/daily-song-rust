@@ -28,6 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cors = CorsLayer::new()
         .allow_origin(
             config
+                .state
                 .frontend_url
                 .parse::<HeaderValue>()
                 .expect("invalid FRONTEND_URL"),

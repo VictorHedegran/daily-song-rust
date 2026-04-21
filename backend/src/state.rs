@@ -6,4 +6,5 @@ pub struct AppState {
     pub spotify_scopes: String,
     pub pg_pool: sqlx::PgPool,
     pub playlist_id: String,
+    pub frontend_url: String,
 }

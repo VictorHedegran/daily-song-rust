@@ -13,7 +13,6 @@ pub struct Config {
     pub state: AppState,
     pub session_layer: SessionManagerLayer<PostgresStore>,
     pub deletion_task: JoinHandle<Result<(), SessionStoreError>>,
-    pub frontend_url: String,
 }
 
 pub async fn load_from_env() -> Result<Config, ConfigError> {
@@ -70,9 +69,9 @@ pub async fn load_from_env() -> Result<Config, ConfigError> {
             spotify_scopes,
             pg_pool,
             playlist_id,
+            frontend_url,
         },
         session_layer,
         deletion_task,
-        frontend_url,
     })
 }

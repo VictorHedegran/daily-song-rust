@@ -140,7 +140,7 @@ pub async fn callback(
         .await
         .map_err(|e| AppError::BadRequest(format!("Session error: {e}")))?;
 
-    Ok(Redirect::to("http://127.0.0.1:5173"))
+    Ok(Redirect::to(&state.frontend_url))
 }
 
 pub async fn get_me(
@@ -165,11 +165,14 @@ pub async fn get_me(
     Ok(Json(UserResponse::from(user)))
 }
 
-pub async fn logout(session: Session) -> Result<impl IntoResponse, AppError> {
+pub async fn logout(
+    State(state): State<AppState>,
+    session: Session,
+) -> Result<impl IntoResponse, AppError> {
     session
         .flush() // deletes all keys from the session
         .await
         .map_err(|e| AppError::BadRequest(e.to_string()))?;
 
-    Ok(Redirect::to("http://127.0.0.1:5173"))
+    Ok(Redirect::to(&state.frontend_url))
 }
