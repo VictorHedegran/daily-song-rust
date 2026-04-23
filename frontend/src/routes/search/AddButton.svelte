@@ -16,7 +16,7 @@
 
 	async function handleSubmit(data: { notes: string; mood: string }) {
 		isDialogOpen = false;
-		status = 'success';
+		
 		isPending = true;
 
 		try {
@@ -32,6 +32,8 @@
 
 			if (!res.ok) {
 				status = 'error';
+			} else {
+				status = 'success';
 			}
 		} catch {
 			status = 'error';

@@ -40,7 +40,7 @@ export const actions: Actions = {
 
 		if (!uri) throw error(400, 'Missing uri');
 
-		const res = await fetch('${BACKEND_URL}/add_track', {
+		const res = await fetch(`${BACKEND_URL}/add_track`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' },
