@@ -1,31 +1,32 @@
 <script lang="ts">
 	import { LoaderCircle, Search, X } from 'lucide-svelte';
-	import { page } from '$app/state';
+	import { page, navigating } from '$app/state';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	let query = $state(page.url.searchParams.get('q') ?? '');
-	let isSearching = $state(false);
 	let debounceTimer: ReturnType<typeof setTimeout>;
 
 	function handleInput(e: Event) {
 		const value = (e.target as HTMLInputElement).value;
 		query = value;
-		isSearching = true;
 		clearTimeout(debounceTimer);
 		debounceTimer = setTimeout(() => {
-			isSearching = false;
-		}, 500);
+			goto(resolve(`/search?q=${encodeURIComponent(value)}`), { replaceState: true, keepFocus: true, noScroll: true });
+		}, 300);
 	}
 
 	function clear() {
 		query = '';
-		isSearching = false;
+		clearTimeout(debounceTimer);
+		goto(resolve('/search?q='), { replaceState: true, keepFocus: true, noScroll: true });
 	}
 </script>
 
 <div
 	class="m-auto flex max-w-96 items-center rounded-full bg-input px-4 py-1 transition-colors duration-200 focus-within:ring-2 focus-within:ring-white/20"
 >
-	{#if isSearching && query}
+	{#if navigating.type !== null && query}
 		<LoaderCircle class="h-5 w-5 shrink-0 animate-spin text-text-secondary" aria-hidden="true" />
 	{:else}
 		<Search class="h-5 w-5 shrink-0 text-text-secondary" aria-hidden="true" />
