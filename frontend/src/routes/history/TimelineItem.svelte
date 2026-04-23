@@ -21,21 +21,6 @@
 		>
 			<div class="mb-3 flex min-w-0 items-center justify-between gap-2">
 				<div class="flex min-w-0 flex-1 items-center gap-2">
-					{#if track.spotify_details?.album?.images[0]?.url}
-						<img
-							src={track.spotify_details.album.images[0].url}
-							alt={track.spotify_details.name || 'Album art'}
-							width={20}
-							height={20}
-							class="shrink-0 rounded-full sm:h-6 sm:w-6"
-						/>
-					{:else}
-						<div
-							class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-background-highlight sm:h-6 sm:w-6"
-						>
-							<Music size={12} class="text-text-secondary sm:h-3.5 sm:w-3.5" />
-						</div>
-					{/if}
 					<span class="truncate text-xs text-text-secondary sm:text-sm">
 						{track.spotify_details?.artists[0]?.name || 'Unknown Artist'}
 					</span>
@@ -53,6 +38,8 @@
 						width={64}
 						height={64}
 						sizes="(min-width: 640px) 80px, 64px"
+						loading="lazy"
+						decoding="async"
 						class="h-16 w-16 shrink-0 rounded-md sm:h-20 sm:w-20"
 					/>
 				{:else}
