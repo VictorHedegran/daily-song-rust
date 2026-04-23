@@ -5,12 +5,14 @@
 	import Header from '$lib/components/Header.svelte';
 
 	let { children, data } = $props();
-
-	let user = $derived(data.success ? data.result : null);
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<Header {user} />
+{#await data.user}
+	<Header user={null} />
+{:then user}
+	<Header {user} />
+{/await}
 <main class="max-w-4xl mx-auto px-4">{@render children()}</main>
 <BottomNav />
