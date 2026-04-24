@@ -8,7 +8,7 @@ export const load: PageServerLoad = ({ fetch }) => {
 		if (!res.ok) throw new Error(JSON.stringify(await res.json()));
 		const parsed = z.array(GetHistoryResponseSchema).safeParse(await res.json());
 		if (!parsed.success) throw new Error('Failed to parse history response');
-		return parsed.data;
+		return parsed.data.toSorted((a, b) => b.date.localeCompare(a.date));
 	});
 
 	return { result };
